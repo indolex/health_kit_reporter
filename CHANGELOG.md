@@ -1,3 +1,7 @@
+## [2.1.0] - 23.06.2022.
+
+* Make `averageHeartRate` optional as a `HKElectrocardiogram.Classification.inconclusivePoorReading` may not have a value for this field
+
 ## [2.1.0] - 30.10.2022
 
 * Add new types for iOS 16 (also missing for iOS 15)
