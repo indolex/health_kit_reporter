@@ -58,65 +58,6 @@ class Electrocardiogram extends Sample<ElectrocardiogramHarmonized> {
             json, ElectrocardiogramHarmonized.fromJson(json['harmonized']));
 }
 
-enum ElectrocardiogramClassification {
-  notSet,
-  sinusRhythm,
-  atrialFibrillation,
-  inconclusiveLowHeartRate,
-  inconclusiveHighHeartRate,
-  inconclusivePoorReading,
-  inconclusiveOther,
-  unrecognized,
-}
-
-extension ElectrocardiogramClassificationRawValue
-    on ElectrocardiogramClassification {
-  static ElectrocardiogramClassification parse(String data) {
-    switch (data) {
-      case 'notSet':
-        return ElectrocardiogramClassification.notSet;
-      case 'sinusRhythm':
-        return ElectrocardiogramClassification.sinusRhythm;
-      case 'atrialFibrillation':
-        return ElectrocardiogramClassification.atrialFibrillation;
-      case 'inconclusiveLowHeartRate':
-        return ElectrocardiogramClassification.inconclusiveLowHeartRate;
-      case 'inconclusiveHighHeartRate':
-        return ElectrocardiogramClassification.inconclusiveHighHeartRate;
-      case 'inconclusivePoorReading':
-        return ElectrocardiogramClassification.inconclusivePoorReading;
-      case 'inconclusiveOther':
-        return ElectrocardiogramClassification.inconclusiveOther;
-      case 'unrecognized':
-        return ElectrocardiogramClassification.unrecognized;
-      default:
-        throw ArgumentError.value('Invalid classification type');
-    }
-  }
-}
-
-enum ElectrocardiogramSymptomStatus {
-  notSet,
-  none,
-  present,
-}
-
-extension ElectrocardiogramSymptomStatusRawValue
-    on ElectrocardiogramSymptomStatus {
-  static ElectrocardiogramSymptomStatus parse(String data) {
-    switch (data) {
-      case 'notSet':
-        return ElectrocardiogramSymptomStatus.notSet;
-      case 'none':
-        return ElectrocardiogramSymptomStatus.none;
-      case 'present':
-        return ElectrocardiogramSymptomStatus.present;
-      default:
-        throw ArgumentError.value('Invalid symptom status');
-    }
-  }
-}
-
 /// Equivalent of [Electrocardiogram.Harmonized]
 /// from [HealthKitReporter] https://cocoapods.org/pods/HealthKitReporter
 ///
@@ -136,8 +77,6 @@ class ElectrocardiogramHarmonized {
     this.count,
     this.voltageMeasurements,
     this.metadata,
-    this.classificationKey,
-    this.symptomsStatusKey,
   );
 
   final num? averageHeartRate;
@@ -145,9 +84,7 @@ class ElectrocardiogramHarmonized {
   final num samplingFrequency;
   final String samplingFrequencyUnit;
   final String classification;
-  final ElectrocardiogramClassification classificationKey;
   final String symptomsStatus;
-  final ElectrocardiogramSymptomStatus symptomsStatusKey;
   final int count;
   final List<ElectrocardiogramVoltageMeasurement> voltageMeasurements;
   final Map<String, dynamic>? metadata;
@@ -160,9 +97,7 @@ class ElectrocardiogramHarmonized {
         'samplingFrequency': samplingFrequency,
         'samplingFrequencyUnit': samplingFrequencyUnit,
         'classification': classification,
-        'classificationKey': classificationKey,
         'symptomsStatus': symptomsStatus,
-        'symptomsStatusKey': symptomsStatusKey,
         'count': count,
         'voltageMeasurements': voltageMeasurements.map((e) => e.map).toList(),
         'metadata': metadata,
@@ -176,13 +111,7 @@ class ElectrocardiogramHarmonized {
         samplingFrequency = json['samplingFrequency'],
         samplingFrequencyUnit = json['samplingFrequencyUnit'],
         classification = json['classification'],
-        classificationKey = ElectrocardiogramClassificationRawValue.parse(
-          json['classificationKey'],
-        ),
         symptomsStatus = json['symptomsStatus'],
-        symptomsStatusKey = ElectrocardiogramSymptomStatusRawValue.parse(
-          json['symptomsStatusKey'],
-        ),
         count = json['count'],
         voltageMeasurements = ElectrocardiogramVoltageMeasurement.collect(
             json['voltageMeasurements']),
